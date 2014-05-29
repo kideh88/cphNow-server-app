@@ -13,7 +13,7 @@ class Authentication {
     }
 
 
-    public function checkExistingUsername($strUsername) {
+    public function getUserIdFromName($strUsername) {
         $strCheckExistingStatement = "SELECT id FROM " . $this->_strTablePrefix . "users WHERE username LIKE :uname";
         $objExistUserPDO = $this->_pdo->prepare($strCheckExistingStatement);
         $objExistUserPDO->bindValue(':uname', $strUsername, PDO::PARAM_STR);

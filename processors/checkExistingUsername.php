@@ -4,7 +4,7 @@ if(array_key_exists('strUsername', $arrParameters)) {
     require_once($strProjectPath . '/classes/Authentication.class.php');
     $strUsername = $arrParameters['strUsername'];
     $objAuthClass = new Authentication($strProjectPath);
-    $intExistingId = $objAuthClass->checkExistingUsername($strUsername);
+    $intExistingId = $objAuthClass->getUserIdFromName($strUsername);
 
     $arrResponse['status'] = true;
     if(0 < $intExistingId) {
