@@ -21,7 +21,7 @@ class Event {
         $intTimePosted = time();
         $strNewUserStatement = "INSERT INTO " . $this->_strTablePrefix . "events ( `name`, `cphnow_users_fk`, "
             . "`latitude`, `longitude`, `event_type`, `time_posted`, `time_start`, `time_duration`, `entrance_fee`, "
-            . "`music`, `bar`, `food`, `estimated_people` ) VALUES ( :name, :userid, :lat, :long, :type, :posted, "
+            . "`music`, `bar`, `food`, `estimated_people` ) VALUES ( :name, :desc, :userid, :lat, :long, :type, :posted, "
             . ":start, :duration, :fee, :music, :bar, :food, :people)";
         $objNewUserPDO = $this->_pdo->prepare($strNewUserStatement);
 

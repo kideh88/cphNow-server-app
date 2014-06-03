@@ -10,7 +10,6 @@ if(array_key_exists('strUsername', $arrParameters) && array_key_exists('strAppTo
 
     if($blnUserValid) {
         $arrResponse['status'] = true;
-//        $arrResponse['result'];
 
         $strEventName = $arrParameters['strEventName'];
         $strEventDescription = $arrParameters['strEventDescription'];
