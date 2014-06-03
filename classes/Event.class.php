@@ -19,7 +19,7 @@ class Event {
             $intEventType, $intEventTime, $intEventDuration, $intEventFee, $blnMusic, $blnDrinks, $blnFood, $intPeople) {
 
         $intTimePosted = time();
-        $strNewUserStatement = "INSERT INTO " . $this->_strTablePrefix . "events ( `name`, `cphnow_users_fk`, "
+        $strNewUserStatement = "INSERT INTO " . $this->_strTablePrefix . "events ( `name`, `description`, `cphnow_users_fk`, "
             . "`latitude`, `longitude`, `event_type`, `time_posted`, `time_start`, `time_duration`, `entrance_fee`, "
             . "`music`, `bar`, `food`, `estimated_people` ) VALUES ( :name, :desc, :userid, :lat, :long, :type, :posted, "
             . ":start, :duration, :fee, :music, :bar, :food, :people)";
