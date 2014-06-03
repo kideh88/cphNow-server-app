@@ -11,30 +11,54 @@ if(array_key_exists('strUsername', $arrParameters) && array_key_exists('strAppTo
     if($blnUserValid) {
         $arrResponse['status'] = true;
 
-//        $arrActiveEvents =
+        require_once($strProjectPath . '/classes/Event.class.php');
+        $objEventClass = new Event($strProjectPath);
 
-        $arrResponse['result'] = array(
-            array(
-                "strEventName" => "Party 1"
-                , "strEventDescription" => "Party at dronning louises bro"
-            )
-            , array(
-                "strEventName" => "Party 2"
-                , "strEventDescription" => "Party at fælledparken"
-            )
-            , array(
-                "strEventName" => "Party 3"
-                , "strEventDescription" => "Party at nørrebro"
-            )
-            , array(
-                "strEventName" => "Party 4"
-                , "strEventDescription" => "Party at frederiksberg"
-            )
-            , array(
-                "strEventName" => "Party 5"
-                , "strEventDescription" => "Party at Kgs. Have"
-            )
+        $intTimeMax = (int)$arrParameters['intMaxDays'];
+        $intDistanceMax = (int)$arrParameters['intMaxDistance'];
+
+        $blnShowParty = (bool)$arrParameters['blnShowParty'];
+        $blnShowMarket = (bool)$arrParameters['blnShowMarket'];
+        $blnShowShow = (bool)$arrParameters['blnShowShow'];
+        $blnShowAction = (bool)$arrParameters['blnShowAction'];
+
+        $arrCurrentLocation = array(
+            "dblLatitude" => doubleval($arrParameters['dblCurrentLatitude'])
+            , "dblLongitude" => doubleval($arrParameters['dblCurrentLongitude'])
         );
+
+        $arrTypeConditions = array();
+        $strTypeWhereClause = "";
+        if($blnShowParty) {
+            $arrTypeConditions[] = 0;
+        }
+        if($blnShowMarket) {
+            $arrTypeConditions[] = 1;
+        }
+        if($blnShowShow) {
+            $arrTypeConditions[] = 2;
+        }
+        if($blnShowAction) {
+            $arrTypeConditions[] = 3;
+        }
+        if(count($arrTypeConditions) > 0) {
+            $strTypeWhereClause = "( ";
+            foreach($arrTypeConditions as $intKey => $intEventType) {
+                $strTypeWhereClause .= $intEventType;
+                if(array_key_exists(($intKey+1), $arrTypeConditions)) {
+                    $strTypeWhereClause .= ", ";
+                }
+            }
+            $strTypeWhereClause .= " )";
+            $arrActiveEvents = $objEventClass->getEventList($intTimeMax, $intDistanceMax, $strTypeWhereClause, $arrCurrentLocation);
+        }
+        else {
+            $arrActiveEvents = array("blnFilterError" => true);
+        }
+
+
+
+        $arrResponse['result'] = $arrActiveEvents;
 
     }
     else {

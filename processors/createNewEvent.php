@@ -13,6 +13,7 @@ if(array_key_exists('strUsername', $arrParameters) && array_key_exists('strAppTo
 //        $arrResponse['result'];
 
         $strEventName = $arrParameters['strEventName'];
+        $strEventDescription = $arrParameters['strEventDescription'];
         $intUserId = (int)$objAuthClass->getUserIdFromName($strUsername);
         $fltLatitude = $arrParameters['dblLatitude'];
         $fltLongitude = $arrParameters['dblLongitude'];
@@ -27,7 +28,7 @@ if(array_key_exists('strUsername', $arrParameters) && array_key_exists('strAppTo
 
         require_once($strProjectPath . '/classes/Event.class.php');
         $objEventClass = new Event($strProjectPath);
-        $blnCreated = $objEventClass->createNewEvent($strEventName, $intUserId, $fltLatitude, $fltLongitude,
+        $blnCreated = $objEventClass->createNewEvent($strEventName, $strEventDescription, $intUserId, $fltLatitude, $fltLongitude,
             $intEventType, $intEventTime, $intEventDuration, $intEventFee, $blnMusic, $blnDrinks, $blnFood, $intPeople);
 
         if($blnCreated) {
