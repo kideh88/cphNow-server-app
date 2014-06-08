@@ -5,6 +5,7 @@ class Data {
     public $objPDO;
     private $_strTablePrefix;
 
+    // Contructor creates a PDO connection using config.inc.php's settings
     public function __construct($strProjectPath) {
         require($strProjectPath . '/config/config.inc.php');
         try {
@@ -19,11 +20,14 @@ class Data {
         }
     }
 
+    // Returns the connection
     public function pdo() {
         return $this->objPDO;
     }
 
+    // Returns the database table prefix used for the project
     public function getTablePrefix() {
         return $this->_strTablePrefix;
     }
 }
+

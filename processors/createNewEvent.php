@@ -27,8 +27,9 @@ if(array_key_exists('strUsername', $arrParameters) && array_key_exists('strAppTo
 
         require_once($strProjectPath . '/classes/Event.class.php');
         $objEventClass = new Event($strProjectPath);
-        $blnCreated = $objEventClass->createNewEvent($strEventName, $strEventDescription, $intUserId, $fltLatitude, $fltLongitude,
-            $intEventType, $intEventTime, $intEventDuration, $intEventFee, $blnMusic, $blnDrinks, $blnFood, $intPeople);
+        $blnCreated = $objEventClass->createNewEvent($strEventName, $strEventDescription, $intUserId,
+            $fltLatitude, $fltLongitude, $intEventType, $intEventTime, $intEventDuration, $intEventFee,
+            $blnMusic, $blnDrinks, $blnFood, $intPeople);
 
         if($blnCreated) {
             $arrResponse['result'] = array("blnEventCreated" => true);
@@ -41,8 +42,8 @@ if(array_key_exists('strUsername', $arrParameters) && array_key_exists('strAppTo
     else {
         $arrResponse['error'] = 42;
     }
-
 }
 else {
     $arrResponse['error'] = 41;
 }
+

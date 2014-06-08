@@ -8,6 +8,7 @@ class Event {
     private $_arrDurationConvert = array(1800, 3600, 7200, 18000, 36000, 86400);
     private $_arrRangeConvert = array(250, 500, 750, 1000, 5000);
 
+    // Constructor to create a connection with Data class
     public function __construct($strProjectPath) {
         require_once($strProjectPath . '/classes/Data.class.php');
         $objDataClass = new Data($strProjectPath);
@@ -15,6 +16,7 @@ class Event {
         $this->_strTablePrefix = $objDataClass->getTablePrefix();
     }
 
+    // Creates new events in the database
     public function createNewEvent($strEventName, $strEventDescription, $intUserId, $fltLatitude, $fltLongitude,
             $intEventType, $intEventTime, $intEventDuration, $intEventFee, $blnMusic, $blnDrinks, $blnFood, $intPeople) {
 
@@ -49,6 +51,8 @@ class Event {
         }
 
     }
+
+    // Fetches an updated event list and calls filtering methods for distance limitations
     public function getEventList($intTimeMax, $intRangeMax, $mixWhereType, $arrCurrentLocation) {
         $intTimestamp = time();
         $intTimeLimit = $this->_calculateTimestampLimit($intTimeMax);
@@ -87,9 +91,8 @@ class Event {
 
     }
 
-
-
-    private function _prepareResponseArray($arrEvents,  $arrCurrentLocation, $mixRange) {
+    // Filters, sorts and typecasts the database response
+    private function _prepareResponseArray($arrEvents, $arrCurrentLocation, $mixRange) {
         $dblUserLat = $arrCurrentLocation['dblLatitude'];
         $dblUserLon = $arrCurrentLocation['dblLongitude'];
         $arrResponse = array();
@@ -128,6 +131,7 @@ class Event {
 
     }
 
+    // Calculates the distance between 2 locations
     private function _calculatePointDistance($lat1, $lon1, $lat2, $lon2, $unit) {
         $theta = $lon1 - $lon2;
         $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
@@ -148,7 +152,7 @@ class Event {
         }
     }
 
-
+    // Calculates the timestamp limit used by SQL statement
     private function _calculateTimestampLimit($intMaxDays) {
         switch($intMaxDays) {
             case 0:
@@ -187,11 +191,10 @@ class Event {
 
     }
 
+    // Rounds distances to full numbers to avoid decimals
     private function _ceiling($intNumber, $intFullRound = 1)
 {
     return ( is_numeric($intNumber) && is_numeric($intFullRound) ) ? (ceil($intNumber/$intFullRound)*$intFullRound) : false;
 }
-
-
 
 }

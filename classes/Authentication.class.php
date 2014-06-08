@@ -5,6 +5,7 @@ class Authentication {
     private $_pdo;
     private $_strTablePrefix;
 
+    // Constructor to create a connection with Data class
     public function __construct($strProjectPath) {
         require_once($strProjectPath . '/classes/Data.class.php');
         $objDataClass = new Data($strProjectPath);
@@ -12,7 +13,7 @@ class Authentication {
         $this->_strTablePrefix = $objDataClass->getTablePrefix();
     }
 
-
+    // Fetch user id by given username string
     public function getUserIdFromName($strUsername) {
         $strCheckExistingStatement = "SELECT id FROM " . $this->_strTablePrefix . "users WHERE username LIKE :uname";
         $objExistUserPDO = $this->_pdo->prepare($strCheckExistingStatement);
@@ -26,6 +27,7 @@ class Authentication {
         }
     }
 
+    // Create a new user in the database
     public function createNewUser($strUsername, $strAppToken) {
         $strNewUserStatement = "INSERT INTO " . $this->_strTablePrefix . "users ( `username`, `app_token`, "
             . "`time_registered` ) VALUES ( :uname, :token, :time )";
@@ -44,6 +46,7 @@ class Authentication {
         }
     }
 
+    // Create a unique app token, calls itself if app exists in db
     public function getAppToken() {
         $strAppToken = uniqid('', true);
         if($this->_checkExistingAppToken($strAppToken)) {
@@ -54,6 +57,7 @@ class Authentication {
         }
     }
 
+    // Used to check for duplicate app tokens in database
     private function _checkExistingAppToken($strAppToken) {
         $strCheckExistingStatement = "SELECT id FROM " . $this->_strTablePrefix . "users WHERE app_token LIKE :token";
         $objExistTokenPDO = $this->_pdo->prepare($strCheckExistingStatement);
@@ -67,6 +71,7 @@ class Authentication {
         return false;
     }
 
+    // Authenticate a username/app token combination in DB
     public function authenticateAppUser($strUsername, $strAppToken) {
         $strAuthenticationStatement = "SELECT id FROM " . $this->_strTablePrefix . "users WHERE username LIKE :uname "
                 . "AND app_token LIKE :token";
@@ -84,3 +89,5 @@ class Authentication {
     }
 
 }
+
+

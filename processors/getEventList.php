@@ -50,13 +50,12 @@ if(array_key_exists('strUsername', $arrParameters) && array_key_exists('strAppTo
                 }
             }
             $strTypeWhereClause .= " )";
-            $arrActiveEvents = $objEventClass->getEventList($intTimeMax, $intDistanceMax, $strTypeWhereClause, $arrCurrentLocation);
+            $arrActiveEvents = $objEventClass->getEventList($intTimeMax, $intDistanceMax,
+                                                            $strTypeWhereClause, $arrCurrentLocation);
         }
         else {
             $arrActiveEvents = array("blnFilterError" => true);
         }
-
-
 
         $arrResponse['result'] = $arrActiveEvents;
 
