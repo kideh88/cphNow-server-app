@@ -1,4 +1,4 @@
-server-app
+cphNow-server-app
 ==========
 
-Server application for bachelor
+Server application for my bachelor project cphNow
